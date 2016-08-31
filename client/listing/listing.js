@@ -27,9 +27,10 @@ angular.module('gitHired.listing', [])
   //POST JOB
   $scope.link = {};
   $scope.postJob = function () {
-    Jobs.postOne($scope.link)
+    Jobs.postOne($scope.job)
       .then(function (job) {
         console.log('Job posted');
+        $scope.getJobs();
       })
       .catch(function (err) {
         console.log('Error posting job', err);
@@ -41,6 +42,7 @@ angular.module('gitHired.listing', [])
     Jobs.delOne(job)
   	.then(function(res){
   		console.log('Job deleted');
+      $scope.getJobs();
   	})
     .catch(function(err) {
       console.log('Error deleting job', err);
@@ -59,19 +61,36 @@ angular.module('gitHired.listing', [])
   };
 
   /* TOGGLE FAV:
-    Clicking on "Unfav" will make a PUT request to the "fav" key in schema between "unfav" and "fav.
+    Clicking on star will make a PUT request to the "fav" key in schema between "unfav" and "fav".
     Next step will be to change the CSS class based on the job's fav value, which seems it could be a Bootstrap thing.
     Keep in mind that clicking the FAV text should only change that one job's fav value.
   */
   $scope.toggleFav = function(job) {
     Jobs.toggleOne(job)
     .then(function(res){
+      $scope.faved = job.fav;
       console.log('Favorite toggled');
     })
     .catch(function(err) {
       console.log('Error toggling favorite'), err;
     });
   };
+
+  //PROGRESS BAR
+  var options = 6;
+    //NOTE: Any changes to these fields MUST match the options in View modal's options
+  $scope.progression = {
+    'Interested': {value: 5, type: 'info'},
+    'Outreach': {value: 1/options * 100, type: 'info'},
+    'Phone Interview': {value: 2/options * 100, type: 'warning'},
+    'Coding Challenge': {value: 3/options * 100, type: 'warning'},
+    'Onsite Interview': {value: 4/options * 100, type: 'warning'},
+    'Offer Received': {value: 5/options * 100, type: 'success'},
+    'Employer Declined': {value: 6/options * 100, type: 'danger'},
+    'Offer Accepted': {value: 6/options * 100, type: 'success'},
+    'Offer Declined': {value: 6/options * 100, type: 'success'}
+  }
+  //'success', 'info', 'warning', and, 'danger'
 
   $scope.getJobs();
 });

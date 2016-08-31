@@ -1,12 +1,13 @@
-a.fav {
-  color: green;
-}
-a.unfav {
-  color: red;
+.fav {
+  color: orange;
+  font-size: 16pt;
 }
 
-th.clickable{
+.clickable{
   cursor: pointer;
+}
+th.clickable:hover{
+  background-color: #f2f2f2;
 }
 
 .sortorder:after {
@@ -14,4 +15,8 @@ th.clickable{
 }
 .sortorder.reverse:after {
   content: '\25bc';   // BLACK DOWN-POINTING TRIANGLE
+}
+
+.progress.active {
+  margin-bottom: 5px;
 }

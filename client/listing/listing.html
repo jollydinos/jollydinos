@@ -1,20 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <!-- Bootstrap Date-Picker Plugin -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
-</head>
-<body>
-
 <div ng-controller="JobsController">
 
+  <!-- Setting up the Job Table -->
   <h2>{{user.name}}'s Jobs</h2>
   <table>
     <tr>
@@ -44,20 +30,23 @@
   <div>
     <!-- Sorts by clicked item first, and company name second -->
     <tr ng-repeat="job in data.jobs | orderBy:'company':reverse | orderBy:propertyName:reverse">
-      <td><a href="#" class="unfav" ng-class="{'status':job.fav}" ng-click="toggleFav(job)">FAV</a></td>
+      <td><span class="clickable fav" ng-class="{'glyphicon glyphicon-star': job.fav, 'glyphicon glyphicon-star-empty': !job.fav}" ng-click="toggleFav(job)"/></td>
       <td>{{job.company}}</td>
       <td>{{job.position}}</td>
       <td>{{job.deadline}}</td>
-      <td>{{job.status}}</td>
-      <td><a href="#" ng-click="delJob(job)"><img src="../assets/listing_del.png"></a></td>
-      <td><a href="#" ng-click="editJob(job)"><img src="../assets/listing_edit.png"></a></td>
+      <td>
+        <uib-progressbar class="progress active" value="progression[job.status].value" type="{{progression[job.status].type}}"></uib-progressbar>
+        {{job.status}}
+      </td>
+      <td><span class="clickable glyphicon glyphicon-remove" style="color:red" ng-click="delJob(job)"/></td>
+      <td><span class="clickable glyphicon glyphicon-pencil" style="color:black" ng-click="editJob(job)"/></td>
     </tr>
   </div>
 </table>
-
-</div>
+<br>
+<!-- Button for Modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userModal">Add Job</button>
-
+<!-- Modal Settings -->
 <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 <div class="modal-dialog" role="document">
   <div class="modal-content">
@@ -66,60 +55,87 @@
       <h4 class="modal-title" id="modalLabel">Message</h4>
       </div>
       <div class="modal-body">
-        <form ng-submit="addJob()" novalidate>
+        <form name = gitHiredForm ng-submit="postJob()" novalidate>
           <div class="form-group required">
+          <!-- Company Form Group -->
               <label for="user-company" class="control-label">
               Company:
                 <span class="asteriskField">
                 *
                 </span>
               </label>
-              <input name='job' class="form-control" ng-model="job.company" placeholder="company">
+            <input name='job' class="form-control" ng-model="job.company" placeholder="company"> <!-- Input for the job.company -->
+          </div>
+          <!-- Position Form Group -->
+          <div class ="form-group">
+            <label for="user-position" class="control-label">Position:</label>
+            <input name='job' class="form-control" ng-model="job.position" placeholder="position"> <!-- Input for the job.position -->
           </div>
           <div class ="form-group">
-              <label for="user-position" class="control-label">Position:</label>
-              <input name='job' class="form-control" ng-model="job.position" placeholder="position">
-          </div>
-          <div>
-            <label for="user-deadline" class="control-label">Deadline:</label>
+            <label for="user-deadline" class="control-label">Deadline:</label> <!-- Deadline Form Group -->
              <div class="input-group date" data-provide="datepicker">
-                <input name='job' class="form-control"  ng-model="job.deadline" placeholder="MM/DD/YYYY">
-                <div class="input-group-addon">
-                    <span class="glyphicon glyphicon-th"> </span>
-                </div>
+              <input name='job' class="form-control" ng-model="job.deadline" placeholder="mm/dd/yyyy">
+              <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"> </span>
+              </div>
             </div>
           </div>
           <br>
-          <div class ="select  form-group">
+          <!-- Status Form Group -->
+          <!-- NOTE: Any changes to the Status choices MUST match those in the Controller -->
+          <div class ="select form-group">
               <label for="user-status" class="control-label">Status:</label>
-              <select name='job' class="select form-control" id="user-status" ng-model="job.status">
-                <option value="Starting">
-                 Starting
+              <select name='job' class="select form-control" id="user-status" ng-model="job.status"> <!-- Creating a Select dropdown for Starting,WIP and Completed -->
+                <option value="Interested">
+                 Interested
                 </option>
-                <option value="Work in Progress">
-                 Work in Progress
+                <option value="Outreach">
+                 Outreach
                 </option>
-                <option value="Completed">
-                 Completed
+                <option disabled>
+                 ---
+               </option>
+                <option value="Phone Interview">
+                 Phone Interview
+                </option>
+                <option value="Coding Challenge">
+                 Coding Challenge
+                </option>
+                <option value="Onsite Interview">
+                 Onsite Interview
+                </option>
+                <option value="Offer Received">
+                 Offer Received
+                </option>
+                <option disabled>
+                 ---
+                </option>
+                <option value="Employer Declined">
+                 Employer Declined
+                </option>
+                <option value="Offer Accepted">
+                 Offer Accepted
+                </option>
+                <option value="Offer Declined">
+                 Offer Declined
                 </option>
              </select>
+             <!-- End of Form Group -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" value ="listing" class="btn btn-primary">Add Information</button>
+            </div>
           </div>
         </form>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Add Information</button>
       </div>
     </div>
   </div>
 </div>
-<!-- Include Date Range Picker -->
+</div>
 
+
+<!-- Extra Style Guide -->
 <style>
-.asteriskField{
-      color:red; font:bold;
-}
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
@@ -134,10 +150,12 @@ td, th {
 
 tr:nth-child(even) {
     background-color: #dddddd;
+}
 </style>
 
-<script>
-  $(document).ready(function(){
+<!--
+
+ /* $(document).ready(function(){
     var date_input=$('input[name="date"]'); //our date input has the name "date"
     date_input.datepicker({
       format: 'mm/dd/yyyy',
@@ -145,7 +163,4 @@ tr:nth-child(even) {
       todayHighlight: true,
       autoclose: true,
     })
-  })
-</script>
-</body>
-</html>
+  })*/ -->

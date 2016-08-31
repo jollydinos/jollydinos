@@ -4,9 +4,6 @@ var router = require('express').Router();
 var User = require('./models/User');
 var Job = require('./models/Job');
 
-
-
-
 router.get('/listing', function(req, res){
 	Job.find(function(err, doc){
     res.json(doc);
@@ -20,8 +17,7 @@ router.post("/listing", function(req, res) {
     'company': req.body.company,
     'position': req.body.position,
     'deadline': req.body.deadline,
-    'status': req.body.status,
-    'fav': 'unfav'
+    'status': req.body.status
 })
 .save(function(err, task){
     res.status(201).json(task)
