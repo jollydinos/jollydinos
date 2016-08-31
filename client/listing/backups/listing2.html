@@ -8,54 +8,11 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- Bootstrap Date-Picker Plugin -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 </head>
 <body>
 
-<div ng-controller="JobsController">
-
-  <h2>{{user.name}}'s Jobs</h2>
-  <table>
-    <tr>
-      <th class="clickable" ng-click="sortBy('fav')">
-        Favorite
-        <span class="sortorder" ng-show="propertyName === 'fav'" ng-class="{reverse: reverse}"></span>
-      </th>
-      <th class="clickable" ng-click="sortBy('company')">
-        Company
-        <span class="sortorder" ng-show="propertyName === 'company'" ng-class="{reverse: reverse}"></span>
-      </th>
-      <th class="clickable" ng-click="sortBy('position')">
-        Position
-        <span class="sortorder" ng-show="propertyName === 'position'" ng-class="{reverse: reverse}"></span>
-      </th>
-      <th class="clickable" ng-click="sortBy('deadline')">
-        Deadline
-        <span class="sortorder" ng-show="propertyName === 'deadline'" ng-class="{reverse: reverse}"></span>
-      </th>
-      <th class="clickable" ng-click="sortBy('status')">
-        Status
-        <span class="sortorder" ng-show="propertyName === 'status'" ng-class="{reverse: reverse}"></span>
-      </th>
-      <th>Delete</th>
-      <th>Edit</th>
-    </tr>
-  <div>
-    <!-- Sorts by clicked item first, and company name second -->
-    <tr ng-repeat="job in data.jobs | orderBy:'company':reverse | orderBy:propertyName:reverse">
-      <td><a href="#" class="unfav" ng-class="{'status':job.fav}" ng-click="toggleFav(job)">FAV</a></td>
-      <td>{{job.company}}</td>
-      <td>{{job.position}}</td>
-      <td>{{job.deadline}}</td>
-      <td>{{job.status}}</td>
-      <td><a href="#" ng-click="delJob(job)"><img src="../assets/listing_del.png"></a></td>
-      <td><a href="#" ng-click="editJob(job)"><img src="../assets/listing_edit.png"></a></td>
-    </tr>
-  </div>
-</table>
-
-</div>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userModal">Add Job</button>
 
 <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
@@ -120,20 +77,6 @@
 .asteriskField{
       color:red; font:bold;
 }
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
 </style>
 
 <script>
@@ -149,3 +92,4 @@ tr:nth-child(even) {
 </script>
 </body>
 </html>
+
