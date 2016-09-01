@@ -2,12 +2,25 @@
 <html>
 <head>
 </head>
+<link rel="stylesheet" type="text/css" href="styles/style.css" />
 <body ng-controller="LoginController">
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState()">
+<div class="facebook">
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState()" width="200px">
 </fb:login-button>
+</div>
 <div id="status">
 </div>
+<script>
 
+function fbLogout() {
+        FB.logout(function (response) {
+            //Do what ever you want here when logged out like reloading the page
+            window.location.reload();
+        });
+    }
+</script>
+
+<span id="fbLogout" onclick="fbLogout()"><a class="fb_button fb_button_medium"><span class="fb_button_text">Logout</span></a></span>
 
 </html>
 </body> 

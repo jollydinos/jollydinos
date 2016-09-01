@@ -20,9 +20,9 @@
         Deadline
         <span class="sortorder" ng-show="propertyName === 'deadline'" ng-class="{reverse: reverse}"></span>
       </th>
-      <th class="clickable" ng-click="sortBy('status')">
+      <th class="clickable" ng-click="sortBy('statusOrder')">
         Status
-        <span class="sortorder" ng-show="propertyName === 'status'" ng-class="{reverse: reverse}"></span>
+        <span class="sortorder" ng-show="propertyName === 'statusOrder'" ng-class="{reverse: reverse}"></span>
       </th>
       <th>Delete</th>
       <th>Edit</th>
@@ -50,26 +50,30 @@
 <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 <div class="modal-dialog" role="document">
   <div class="modal-content">
+  <!-- Popup Modal Header -->
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <h4 class="modal-title" id="modalLabel">Message</h4>
-      </div>
+    </div>
+  <!-- End of Header -->
+  <!-- Popup Modal Body -->
       <div class="modal-body">
         <form name = gitHiredForm ng-submit="postJob()" novalidate>
-          <div class="form-group required">
-          <!-- Company Form Group -->
-              <label for="user-company" class="control-label">
-              Company:
-                <span class="asteriskField">
-                *
-                </span>
-              </label>
-            <input name='job' class="form-control" ng-model="job.company" placeholder="company"> <!-- Input for the job.company -->
+        <!-- Company Form Group -->
+          <div class="form-group">
+            <label for="user-company" class="control-label">
+            Company:
+            </label>
+            <input type="text" name='jobCompany' class="form-control" ng-model="job.company" placeholder="company" required>
+             <div role="alert">
+              <span ng-show="gitHiredForm.jobCompany.$error.required" style="color:maroon" role="alert">
+               Required!</span>
+            </div>
           </div>
-          <!-- Position Form Group -->
+        <!-- Position Form Group -->
           <div class ="form-group">
             <label for="user-position" class="control-label">Position:</label>
-            <input name='job' class="form-control" ng-model="job.position" placeholder="position"> <!-- Input for the job.position -->
+            <input name='job' class="form-control" ng-model="job.position" placeholder="position" > <!-- Input for the job.position -->
           </div>
           <div class ="form-group">
             <label for="user-deadline" class="control-label">Deadline:</label> <!-- Deadline Form Group -->
@@ -82,7 +86,7 @@
           </div>
           <br>
           <!-- Status Form Group -->
-          <!-- NOTE: Any changes to the Status choices MUST match those in the Controller -->
+          <!-- NOTE: Any changes to the Status options MUST match those in the Controller -->
           <div class ="select form-group">
               <label for="user-status" class="control-label">Status:</label>
               <select name='job' class="select form-control" id="user-status" ng-model="job.status"> <!-- Creating a Select dropdown for Starting,WIP and Completed -->
@@ -120,47 +124,18 @@
                  Offer Declined
                 </option>
              </select>
-             <!-- End of Form Group -->
+        <!-- End of Body -->
+        <!-- Popup Modal Footer -->
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" value ="listing" class="btn btn-primary">Add Information</button>
+              <button type="submit" value ="listing" class="btn btn-primary" data-dismiss="modal" ng-click="closeModal()" ng-disabled="(gitHiredForm.$dirty && gitHiredForm.$invalid)">Save</button>
             </div>
+        <!-- End of Footer -->
           </div>
         </form>
+        <!-- End of Form//-->
       </div>
     </div>
   </div>
 </div>
 </div>
-
-
-<!-- Extra Style Guide -->
-<style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-</style>
-
-<!--
-
- /* $(document).ready(function(){
-    var date_input=$('input[name="date"]'); //our date input has the name "date"
-    date_input.datepicker({
-      format: 'mm/dd/yyyy',
-      container: container,
-      todayHighlight: true,
-      autoclose: true,
-    })
-  })*/ -->
